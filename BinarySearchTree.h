@@ -2,32 +2,11 @@
 #include "QueueAndStack.h"
 using namespace std;
 
-class Node;
-
 class Iterator
 {
 public:
-	virtual Node* next() = 0;
-	virtual bool has_next() = 0;
-};
-
-class Node
-{
-private:
-	int key;
-	Node* left_child;
-	Node* right_child;
-	Node* set_left_child(int);
-	Node* set_right_child(int);
-	void set_key(int);
-public:
-	Node();
-	Node(int);
-	friend class BinarySearchTree;
-	Node* get_left_child();
-	Node* get_right_child();
-	int get_key();
-	~Node();
+	virtual Node* next() = 0; // return current element and goes to the next
+	virtual bool has_next() = 0; // return true if next exists
 };
 
 class BinarySearchTree // BST
@@ -40,24 +19,61 @@ public:
 	BinarySearchTree(int);
 	bool is_empty();
 	Node* get_root();
-	void insert(int); // добавление элемента в дерево по ключу. Должен работать за O(logN)
-	Node* contains(int); // поиск элемента в дереве по ключу
-	void remove(int); // удаление элемента дерева по ключу
+	void insert(int); // add element with given key
+	bool contains(int); // search element with given key
+	void remove(int); // delete element with given key
 
-	Iterator* create_bft_iterator(); // создание итератора, реализующего методы обхода в ширину (breadth-first traverse)
+	Iterator* create_breadth_first_traverse_iterator(); // to realise this method of passing through elements
 
-	class BFT_Iterator : public Iterator
+	class BreadthFirstTraverse_Iterator : public Iterator
 	{
 	private:
 		Node* current;
-		// queue
+		Queue queue;
 	public:
-		BFT_Iterator(Node* start);
+		BreadthFirstTraverse_Iterator(Node* start);
 		Node* next() override;
 		bool has_next() override;
 	};
-	//Iterator create_dft_iterator(); // создание итератора, реализующего один из методов обхода в глубину (depth-first traverse)
-	//Iterator create_bft_iterator() 
+
+	Iterator* create_pre_ordered_depth_first_traverse_iterator(); // to realise this method of passing through elements
+
+	class PreOrderedDepthFirstTraverse_Iterator : public Iterator
+	{
+	private:
+		Node* current;
+		Stack stack;
+	public:
+		PreOrderedDepthFirstTraverse_Iterator(Node* start);
+		Node* next() override;
+		bool has_next() override;
+	};
+
+	Iterator* create_in_ordered_depth_first_traverse_iterator(); // to realise this method of passing through elements
+
+	class InOrderedDepthFirstTraverse_Iterator : public Iterator
+	{
+	private:
+		Node* current;
+		Stack stack;
+	public:
+		InOrderedDepthFirstTraverse_Iterator(Node* start);
+		Node* next() override;
+		bool has_next() override;
+	};
+
+	Iterator* create_post_ordered_depth_first_traverse_iterator(); // to realise this method of passing through elements
+
+	class PostOrderedDepthFirstTraverse_Iterator : public Iterator
+	{
+	private:
+		Node* current;
+		Stack stack;
+	public:
+		PostOrderedDepthFirstTraverse_Iterator(Node* start);
+		Node* next() override;
+		bool has_next() override;
+	};
+
 	~BinarySearchTree();
 };
-
