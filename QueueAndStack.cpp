@@ -1,22 +1,63 @@
 #include "QueueAndStack.h"
-element::element()
+
+Node::Node()
+{
+	key = 0;
+	left_child = nullptr;
+	right_child = nullptr;
+}
+
+Node::Node(int key_number)
+{
+	key = key_number;
+	left_child = nullptr;
+	right_child = nullptr;
+}
+
+Node* Node::set_left_child(int child_key)
+{
+	Node* new_node = new Node(child_key);
+	left_child = new_node;
+	return left_child;
+}
+
+Node* Node::set_right_child(int child_key)
+{
+	Node* new_node = new Node(child_key);
+	right_child = new_node;
+	return right_child;
+}
+
+void Node::set_key(int key_number) { key = key_number; }
+Node* Node::get_left_child() { return left_child; }
+Node* Node::get_right_child() { return right_child; }
+int Node::get_key() { return key; }
+Node::~Node()
+{
+	delete left_child;
+	delete right_child;
+	left_child = right_child = nullptr;
+}
+
+Element::Element()
 {
 	data = 0;
 	next = nullptr;
 }
-element* element::get_next() { return next; }
-int element::get_data() { return data; }
-void element::set_next(element* new_element) { next = new_element; }
-void element::set_data(int information) { data = information; }
-element::~element() { delete next; next = nullptr; }
+
+Element* Element::get_next() { return next; }
+Node* Element::get_data() { return data; }
+void Element::set_next(Element* new_element) { next = new_element; }
+void Element::set_data(Node* information) { data = information; }
+Element::~Element() { delete next; next = nullptr; }
 
 Queue::Queue()
 {
 	head = nullptr;
 	tail = nullptr;
 }
-void Queue::set_head(element* key) { head = key; }
-void Queue::set_tail(element* key) { tail = key; }
+void Queue::set_head(Element* key) { head = key; }
+void Queue::set_tail(Element* key) { tail = key; }
 
 bool Queue::is_empty() // returns true if queue is empty
 {
@@ -30,18 +71,18 @@ int Queue::size() // return a number of elements in queue
 	if (is_empty())
 		return 0;
 	int size = 1;
-	for (element* now = tail; now->get_next() != nullptr; now = now->get_next())
+	for (Element* now = tail; now->get_next() != nullptr; now = now->get_next())
 		size++;
 	return size;
 }
 
-element* Queue::top() // to know who will leave first
+Element* Queue::top() // to know who will leave first
 { return head; }
 
-element* Queue::push(int data_key) // to add in the end of the queue the element with key-data
+Element* Queue::push(Node* data_key) // to add in the end of the queue the element with key-data
 {
-	element* new_element = new element;
-	new_element->data = data_key;
+	Element* new_element = new Element;
+	new_element->set_data(data_key);
 	if (is_empty())
 		head = tail = new_element;
 	else
@@ -52,9 +93,9 @@ element* Queue::push(int data_key) // to add in the end of the queue the element
 	return new_element;
 }
 
-element* Queue::pop() // to delete first in queue and return it's key-data
+Element* Queue::pop() // to delete first in queue and return it's key-data
 {
-	element* to_delete;
+	Element* to_delete;
 	if (is_empty())
 		throw out_of_range("the queue is empty");
 	else if (size() == 1)
@@ -65,14 +106,14 @@ element* Queue::pop() // to delete first in queue and return it's key-data
 	else
 	{
 		to_delete = head;
-		for (element* now = tail; now->get_next() != nullptr; now = now->get_next())
+		for (Element* now = tail; now->get_next() != nullptr; now = now->get_next())
 			head = now;
 		head->next = nullptr;
 	}
 	return to_delete;
 }
 
-element* Queue::back() // to know who is the last in queue
+Element* Queue::back() // to know who is the last in queue
 { return tail; }
 
 Queue::~Queue()
@@ -81,7 +122,7 @@ Queue::~Queue()
 		pop();
 }
 
-void Stack::set_top(element* top_element) { top = top_element; }
+void Stack::set_top(Element* top_element) { top = top_element; }
 Stack::Stack()
 {
 	top = nullptr;
@@ -97,19 +138,19 @@ int Stack::size()
 	int size = 1;
 	if (is_empty())
 		return 0;
-	for (element* now = top; now->get_next() != nullptr; now = now->get_next())
+	for (Element* now = top; now->get_next() != nullptr; now = now->get_next())
 		size++;
 	return size;
 }
 
-element* Stack::peek() // to show who's on the top
+Element* Stack::peek() // to show who's on the top
 {
 	return top;
 }
 
-element* Stack::pop() // to delte top and show it
+Element* Stack::pop() // to delte top and show it
 {
-	element* to_delete = top;
+	Element* to_delete = top;
 	if (is_empty())
 		throw out_of_range("the stack is empty");
 	else
@@ -117,9 +158,9 @@ element* Stack::pop() // to delte top and show it
 	return to_delete;
 }
 
-element* Stack::push(int data) // to push on top and show it
+Element* Stack::push(Node* data) // to push on top and show it
 {
-	element* new_element = new element;
+	Element* new_element = new Element;
 	new_element->set_data(data);
 	if (is_empty())
 		top = new_element;
