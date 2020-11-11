@@ -27,9 +27,6 @@ int Queue::size() // return a number of elements in queue
 	return size;
 }
 
-Element* Queue::top() // to know who will leave first
-{ return head; }
-
 Element* Queue::push(Node* data_key) // to add in the end of the queue the element with key-data
 {
 	Element* new_element = new Element;
