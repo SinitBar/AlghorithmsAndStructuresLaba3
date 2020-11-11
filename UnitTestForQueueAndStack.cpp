@@ -167,18 +167,5 @@ namespace UnitTestForQueueAndStack
 			stack.push(&new_node4);
 			Assert::AreEqual(stack.peek()->get_data()->get_key(), 1);
 		}
-		/*TEST_METHOD(TestOneElementQueueBack)
-		{
-			Queue queue;
-			Node new_node(3);
-			queue.push(&new_node);
-			Node new_node2(5);
-			queue.push(&new_node2);
-			Node new_node3(7);
-			queue.push(&new_node3);
-			Node new_node4(1);
-			queue.push(&new_node4);
-			Assert::AreEqual(queue.back()->get_data()->get_key(), 1);*/
-		//}
 	};
 }
