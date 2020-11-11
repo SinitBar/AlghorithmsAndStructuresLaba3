@@ -199,12 +199,12 @@ Node* BinarySearchTree::BreadthFirstTraverse_Iterator::next()
 {
 	if (queue.is_empty())
 		return current = nullptr;
-	current = queue.top()->get_data();
+	current = queue.pop()->get_data();
 	if (current->get_left_child() != nullptr)
 		queue.push(current->get_left_child());
 	if (current->get_right_child() != nullptr)
 		queue.push(current->get_right_child());
-	return queue.pop()->get_data();
+	return current;
 }
 
 
