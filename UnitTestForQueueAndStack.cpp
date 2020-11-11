@@ -61,13 +61,6 @@ namespace UnitTestForQueueAndStack
 			queue.push(&new_node);
 			Assert::AreEqual(queue.is_empty(), false);
 		}
-		TEST_METHOD(TestOneElementQueue)
-		{
-			Queue queue;
-			Node new_node(3);
-			queue.push(&new_node);
-			Assert::AreEqual(queue.top()->get_data()->get_key(), 3);
-		}
 		TEST_METHOD(TestOneElementStack)
 		{
 			Stack stack;
@@ -140,19 +133,6 @@ namespace UnitTestForQueueAndStack
 			Node new_node2(1);
 			stack.push(&new_node2);
 			Assert::AreEqual(stack.size(), 2);
-		}
-		TEST_METHOD(TestOneElementQueueTop)
-		{
-			Queue queue;
-			Node new_node(3);
-			queue.push(&new_node);
-			Node new_node2(5);
-			queue.push(&new_node2); 
-			Node new_node3(7);
-			queue.push(&new_node3); 
-			Node new_node4(1);
-			queue.push(&new_node4);
-			Assert::AreEqual(queue.top()->get_data()->get_key(), 3);
 		}
 		TEST_METHOD(TestOneElementStackPeek)
 		{
